@@ -1,0 +1,34 @@
+{
+  "name": "codehamza-ag",
+  "version": "1.0.0",
+  "description": "Codehamza.ag Desktop App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^22.3.27",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "com.codehamza.ag",
+    "productName": "Codehamza.ag",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "allowScripts": {
+    "electron@22.3.27": true
+  }
+}

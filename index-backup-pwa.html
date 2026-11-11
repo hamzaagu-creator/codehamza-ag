@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codehamza.ag - منصة تعليم السياقة</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:#f4f7fb;color:#142b45;user-select:none;min-height:100vh;display:flex;flex-direction:column}
+button{font-family:inherit;cursor:pointer}
+
+/* INTRO & HEADER */
+#intro{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#07182d,#173d65);display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;transition:opacity .7s}
+#intro img{width:200px;height:200px;object-fit:contain;background:white;border:4px solid #d8b45d;border-radius:50%;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+#intro h1{color:#e5bd68;font-size:36px;margin-top:15px}
+#intro p{color:#94a3b8;margin-top:5px;margin-bottom:25px}
+
+/* START BUTTON IN INTRO */
+.start-app-btn{background:linear-gradient(135deg, #d8b45d, #b89742);color:#10243e;border:0;padding:14px 35px;border-radius:30px;font-size:18px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(216,180,93,0.4);transition:all 0.3s}
+.start-app-btn:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(216,180,93,0.6)}
+
+header{background:linear-gradient(110deg,#07182d,#173d65);color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #d8b45d;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.brand{display:flex;align-items:center;gap:15px}
+.brand img{width:60px;height:60px;object-fit:contain;background:white;border-radius:50%;padding:2px;border:2px solid #d8b45d}
+.brand h1{margin:0;color:#e5bd68;font-size:24px}
+.brand p{margin:2px 0 0;font-size:13px;color:#94a3b8}
+.category{background:linear-gradient(135deg, #d8b45d, #b89742);color:#10243e;padding:8px 20px;border-radius:25px;font-weight:bold;font-size:14px;box-shadow:0 2px 8px rgba(216,180,93,0.3)}
+
+/* MAIN CONTENT */
+main{max-width:1200px;margin:auto;padding:40px 20px;flex:1;width:100%}
+.welcome{text-align:center;margin-bottom:30px}
+.welcome h2{font-size:32px;color:#0f2752;margin-bottom:10px}
+.welcome p{color:#64748b;font-size:16px}
+
+/* CATEGORIES MENU */
+.categories-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:10px}
+.category-card{background:white;border:2px solid #e2e8f0;border-radius:18px;padding:25px 20px;text-align:center;cursor:pointer;box-shadow:0 10px 25px rgba(20,43,69,0.04);transition:all 0.35s cubic-bezier(0.4, 0, 0.2, 1);position:relative;overflow:hidden}
+.category-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;background:linear-gradient(90deg, #173d65, #d8b45d);opacity:0;transition:opacity 0.3s}
+.category-card:hover{border-color:#d8b45d;transform:translateY(-6px);box-shadow:0 15px 35px rgba(23,61,101,0.12)}
+.category-card:hover::before{opacity:1}
+
+.category-img-box{width:90px;height:75px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:12px;border:2px solid #e2e8f0;padding:6px;transition:transform 0.3s}
+.category-card:hover .category-img-box{transform:scale(1.05)}
+.category-img-box img{width:100%;height:100%;object-fit:contain;}
+
+.category-card h3{color:#173d65;font-size:20px;margin-bottom:8px;font-weight:700}
+.category-card p{color:#64748b;font-size:14px;background:#f1f5f9;padding:5px 12px;border-radius:20px;display:inline-block;font-weight:600}
+
+/* SERIES GRID & BACK BUTTON */
+.header-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;background:white;padding:15px 25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.back-btn{background:linear-gradient(135deg, #475569, #334155);color:white;border:0;padding:10px 22px;border-radius:8px;font-size:15px;font-weight:bold;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+.back-btn:hover{background:linear-gradient(135deg, #334155, #1e293b);transform:translateX(-3px)}
+
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.series{background:white;border:2px solid #e2e8f0;border-radius:14px;min-height:115px;padding:15px;color:#142b45;box-shadow:0 4px 12px rgba(20,43,69,0.04);transition:all 0.25s ease;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.series:hover{border-color:#d8b45d;transform:translateY(-4px);box-shadow:0 8px 20px rgba(216,180,93,0.2);background:#fffdfa}
+.number{display:block;font-size:28px;font-weight:bold;color:#173d65;margin-bottom:4px}
+.series small{color:#64748b;font-weight:600;font-size:13px}
+
+footer{text-align:center;padding:20px;color:#64748b;font-size:14px;background:white;border-top:1px solid #e2e8f0;margin-top:auto}
+
+@media(max-width:850px){
+  .categories-grid{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- شاشة البداية -->
+<div id="intro">
+<img src="im.hamza.png" alt="شعار حمزة">
+<h1>Codehamza.ag</h1>
+<p>منصتكم الاحترافية للاستعداد لامتحان قانون السير</p>
+<button class="start-app-btn" onclick="closeIntro()">اضغط هنا للبدء</button>
+</div>
+
+<header id="mainHeader">
+<div class="brand">
+<img src="im.hamza.png" alt="Logo">
+<div>
+<h1>Codehamza.ag</h1>
+<p>منصة امتحان تعليم السياقة</p>
+</div>
+</div>
+<div class="category" id="headerCategory">الرئيسية</div>
+</header>
+
+<main id="homeCategorySelect">
+<section class="welcome">
+<h2>مرحباً بك في فضاء التعلم والامتحانات</h2>
+<p>اختر القسم أو الصنف الذي ترغب في دراسته والتدرب عليه</p>
+</section>
+
+<div class="categories-grid">
+  
+  <!-- المحور الأول: الدروس النظرية -->
+  <div class="category-card" onclick="openLessons()">
+    <div class="category-img-box">
+      <img src="lessons.png" alt="الدروس النظرية">
+    </div>
+    <h3>الدروس النظرية</h3>
+    <p>شرح قواعد السير والعلامات</p>
+  </div>
+
+  <!-- صنف أ -->
+  <div class="category-card" onclick="openCategory('A', 4)">
+    <div class="category-img-box">
+      <img src="1.png" alt="صنف أ">
+    </div>
+    <h3>صنف أ (A)</h3>
+    <p>4 سلسلات تدريبية</p>
+  </div>
+
+  <!-- صنف ب -->
+  <div class="category-card" onclick="openCategory('B', 40)">
+    <div class="category-img-box">
+      <img src="2.png" alt="صنف ب">
+    </div>
+    <h3>صنف ب (B)</h3>
+    <p>40 سلسلة تدريبية</p>
+  </div>
+
+  <!-- صنف د، ج، ج ه -->
+  <div class="category-card" onclick="openCategory('OTHER', 6)">
+    <div class="category-img-box">
+      <img src="3.png" alt="صنف د، ج، ج ه">
+    </div>
+    <h3>صنف د، ج، ج ه (D, C, CE)</h3>
+    <p>6 سلسلات تدريبية</p>
+  </div>
+
+</div>
+</main>
+
+<main id="seriesListContainer" style="display:none;">
+<div class="header-nav">
+  <h2 id="categoryTitle" style="color:#173d65; margin:0; font-size:22px;">سلاسل الصنف</h2>
+  <button class="back-btn" onclick="goBackToCategories()"><span>←</span> رجوع للقائمة الرئيسية</button>
+</div>
+<section class="grid" id="seriesGrid"></section>
+</main>
+
+<footer id="footer">Codehamza.ag © جميع الحقوق محفوظة</footer>
+
+<script>
+const grid=document.getElementById("seriesGrid");
+const homeCategorySelect=document.getElementById("homeCategorySelect");
+const seriesListContainer=document.getElementById("seriesListContainer");
+
+function closeIntro(){
+const intro=document.getElementById("intro");
+intro.style.opacity="0";
+setTimeout(()=>intro.style.display="none",700);
+}
+
+function openLessons(){
+  window.location.href = "lessons.html";
+}
+
+function openCategory(catType, totalSeries) {
+  homeCategorySelect.style.display = "none";
+  seriesListContainer.style.display = "block";
+  document.getElementById("categoryTitle").textContent = 
+    catType === 'A' ? "سلاسل الصنف أ (A)" : 
+    catType === 'B' ? "سلاسل الصنف ب (B)" : "سلاسل الصنف د، ج، ج ه (D, C, CE)";
+  
+  grid.innerHTML = "";
+  
+  for(let i = 1; i <= totalSeries; i++){
+    const button = document.createElement("button");
+    button.className = "series";
+    button.innerHTML = `<span class="number">${i}</span><small>السلسلة ${i}</small>`;
+    button.addEventListener("click", () => {
+      if(catType === 'B') {
+        if(i === 1) {
+          window.location.href = "serie1.html";
+        } else if(i === 2) {
+          window.location.href = "serie2.html";
+        } else if(i === 3) {
+          window.location.href = "Serie3.html";
+        } else if(i === 4) {
+          window.location.href = "Serie4.html";
+        } else if(i === 5) {
+          window.location.href = "Serie5.html";
+        } else if(i === 6) {
+          window.location.href = "Serie6.html";
+        } else if(i === 7) {
+          window.location.href = "Serie7.html";
+        } else if(i === 8) {
+          window.location.href = "Serie8.html";
+        } else if(i === 9) {
+          window.location.href = "Serie9.html";
+        } else {
+          alert("هذه السلسلة ستضاف في مرحلة لاحقة.");
+        }
+      } else if(catType === 'OTHER') {
+        if(i === 1) {
+          window.location.href = "car1.html";
+        } else {
+          alert("هذه السلسلة ستضاف في مرحلة لاحقة.");
+        }
+      } else {
+        alert("سلاسل الصنف " + catType + " ستتوفر قريبًا.");
+      }
+    });
+    grid.appendChild(button);
+  }
+}
+
+function goBackToCategories() {
+  seriesListContainer.style.display = "none";
+  homeCategorySelect.style.display = "block";
+}
+</script>
+</body>
+</html>

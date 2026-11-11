@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codehamza.ag - السلسلة 5</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#142b45;user-select:none;}
+button{font-family:inherit;cursor:pointer}
+
+/* HEADER */
+header{background:linear-gradient(110deg,#07182d,#173d65);color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #d8b45d}
+.brand{display:flex;align-items:center;gap:15px}
+.brand img{width:60px;height:60px;object-fit:contain;background:white;border-radius:50%}
+.brand h1{margin:0;color:#e5bd68}
+.brand p{margin:5px 0}
+.category{background:#d8b45d;color:#10243e;padding:10px 22px;border-radius:25px;font-weight:bold}
+
+/* MODALS */
+.modal{display:none;position:fixed;inset:0;z-index:200;background:#000b;justify-content:center;align-items:center;padding:20px}
+.modal-content{background:white;width:100%;max-width:420px;padding:25px;border-radius:15px;text-align:center}
+.modal-content h2{color:#173d65}
+.modal-content input{width:100%;padding:14px;margin:12px 0;border:2px solid #dce3ec;border-radius:8px;font-size:17px;text-align:center}
+.modal-buttons{display:flex;gap:10px;margin-top:15px}
+.modal-buttons button{flex:1;padding:13px;border:0;border-radius:8px;font-size:16px;font-weight:bold}
+.start-modal-btn{background:#21a45b;color:white}
+#nameError{color:red;display:none}
+
+/* PIN MODAL */
+#pinModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: #15438c;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.pin-container {
+  width: 100%;
+  max-width: 850px;
+  background: #2b6ce8;
+  border: 4px solid #10316b;
+  border-radius: 8px;
+  display: flex;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  overflow: hidden;
+  direction: ltr;
+}
+
+.pin-info-section {
+  flex: 1.2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-right: 3px solid #10316b;
+}
+
+.pin-title-box {
+  background: #0f2752;
+  color: #ffcc00;
+  border: 2px solid #ffcc00;
+  padding: 8px 25px;
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.app-profile-img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  background: white;
+  border: 4px solid #d8b45d;
+  border-radius: 12px;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.user-details-table {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.detail-row {
+  display: flex;
+  background: #ffffff;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #10316b;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.detail-label {
+  background: #eef3f8;
+  color: #10316b;
+  padding: 8px 12px;
+  width: 45%;
+  text-align: center;
+  border-right: 1px solid #ccc;
+}
+
+.detail-val {
+  color: #000;
+  padding: 8px 12px;
+  flex: 1;
+  text-align: center;
+  background: #fff;
+}
+
+.pin-pad-section {
+  flex: 0.8;
+  background: #1a4da6;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.key-btn {
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  color: #ffeb3b;
+  border: 2px solid #93c5fd;
+  border-radius: 8px;
+  height: 55px;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key-btn:active {
+  transform: scale(0.95);
+  background: #1e40af;
+}
+
+.key-zero {
+  grid-column: span 3;
+}
+
+.pin-display-input {
+  width: 100%;
+  max-width: 240px;
+  height: 45px;
+  background: white;
+  border: 2px solid #10316b;
+  border-radius: 6px;
+  margin-top: 15px;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 5px;
+  font-weight: bold;
+  color: #10316b;
+}
+
+.pin-error-msg {
+  color: #ff4d4d;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 8px;
+  display: none;
+}
+
+/* READY MODAL */
+#readyModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+  background: #5b6880;
+  justify-content: center;
+  align-items: center;
+}
+
+.ready-card {
+  width: 520px;
+  background: #e2e7ef;
+  border: 3px solid #8a9bb8;
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  direction: rtl;
+}
+
+.ready-icon-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  border: 2px solid #b5c2d4;
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+}
+
+.ready-icon-box img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.ready-msg-box {
+  width: 100%;
+  background: linear-gradient(to bottom, #ffffff, #d4e3f5);
+  border: 2px solid #8aa3cc;
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 19px;
+  font-weight: bold;
+  color: #1a365d;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* EXAM WINDOW */
+#exam {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #111;
+  z-index: 50;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.exam-window {
+  width: 100%;
+  height: 100%;
+  background: #d4d9de;
+  border: 3px solid #9aa8b5;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  gap: 6px;
+}
+
+.exam-layout {
+  display: flex;
+  flex-direction: row-reverse;
+  flex: 1;
+  gap: 6px;
+  min-height: 0;
+}
+
+.question-area {
+  flex: 1;
+  background: #000000;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #444;
+}
+
+#questionImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.side-panel {
+  width: 270px;
+  background: linear-gradient(to bottom, #2b62d2, #183e8c);
+  border: 2px solid #0f2a5e;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 10px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+}
+
+.panel-top-indicators {
+  background: #0b1c3d;
+  border: 1px solid #050d1e;
+  border-radius: 4px;
+  width: 95%;
+  height: 48px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 4px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.indicator-line {
+  width: 20px;
+  height: 34px;
+  background: #ffffff;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #183e8c;
+}
+
+.indicator-line::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  height: 7px;
+  background: #d32f2f;
+  border-radius: 1px;
+}
+
+.indicator-line.active-indicator {
+  background: #ffd54f !important;
+  color: #b71c1c;
+}
+.indicator-line.active-indicator::after {
+  background: #2e7d32;
+}
+
+.btn-corriger {
+  background: linear-gradient(to bottom, #d32f2f, #9a0007);
+  color: white;
+  border: 2px solid #ff8a80;
+  border-radius: 25px;
+  padding: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  width: 85%;
+  text-align: center;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+}
+
+.answer-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.answer {
+  width: 85%;
+  height: 44px;
+  border-radius: 22px;
+  background: radial-gradient(circle at 30% 30%, #3a7bd5, #113479);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid #7ea3ed;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+
+.answer:active {
+  transform: scale(0.96);
+}
+
+.answer.selected {
+  background: radial-gradient(circle at 30% 30%, #f44336, #b71c1c) !important;
+  border-color: #ffeb3b;
+  box-shadow: 0 0 10px #f44336;
+}
+
+.action.validate {
+  background: radial-gradient(circle at 30% 30%, #3a7bd5, #113479);
+  color: white;
+  border: 2px solid #7ea3ed;
+  border-radius: 25px;
+  width: 85%;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+}
+
+.footer-bar-exam {
+  height: 60px;
+  background: linear-gradient(to bottom, #f0f4f8, #cfd8e1);
+  border: 2px solid #9aa8b5;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.footer-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #1a252f;
+}
+
+.footer-block span {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #333;
+}
+
+.number-display {
+  background: white;
+  border: 1px solid #b0b8c0;
+  border-radius: 4px;
+  padding: 4px 15px;
+  font-size: 20px;
+  font-weight: bold;
+  min-width: 55px;
+  text-align: center;
+  color: #c0392b;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.volume-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.volume-dot {
+  width: 14px;
+  height: 14px;
+  background: #113479;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.footer-category-box {
+  background: #d4d9de;
+  border-top: 2px solid #9aa8b5;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+  font-size: 13px;
+  color: #1a252f;
+  font-weight: bold;
+}
+.footer-category-box span:last-child {
+  color: #c0392b;
+  font-size: 16px;
+}
+
+/* RESULTS */
+#results{display:none;position:fixed;inset:0;z-index:70;background:#f2f5fa;overflow-y:auto;padding:20px}
+.result-card{max-width:850px;margin:10px auto;background:white;border-radius:15px;padding:25px;text-align:center;box-shadow:0 5px 20px #142b4515}
+.score{font-size:55px;font-weight:bold;color:#173d65}
+.review-area{max-width:900px;margin:20px auto;background:white;border-radius:12px;padding:20px}
+.correction-btn{background:#d8b45d;color:#142b45;padding:14px 35px;border:0;border-radius:9px;font-size:19px;font-weight:bold;margin:15px}
+.question-numbers{display:grid;grid-template-columns:repeat(8,1fr);gap:9px;margin:20px 0}
+.question-number{padding:13px 5px;border:0;border-radius:8px;color:white;font-size:18px;font-weight:bold}
+.question-number.correct{background:#169b52}
+.question-number.wrong{background:#d93636}
+.question-number.active{outline:4px solid #d8b45d;outline-offset:2px}
+#correctionDetails{display:none;background:#f5f7fa;border:1px solid #e0e5ec;border-radius:10px;padding:15px;margin-top:20px;text-align:center}
+#correctionDetails img{width:100%;max-height:400px;object-fit:contain;background:white;border-radius:8px;margin:12px 0}
+.correct-text{color:#169b52;font-weight:bold;font-size:18px}
+.wrong-text{color:#d93636;font-weight:bold;font-size:18px}
+.home-btn{background:#173d65;color:white;padding:14px 25px;border:0;border-radius:8px;font-size:17px;margin:15px}
+
+@media(max-width:850px){
+  .pin-container{flex-direction: column;}
+  .pin-info-section{border-right:0; border-bottom:3px solid #10316b;}
+}
+</style>
+</head>
+
+<body>
+
+<header id="mainHeader">
+<div class="brand">
+<img src="im.hamza.png" alt="Logo">
+<div>
+<h1>Codehamza.ag</h1>
+<p>السلسلة رقم 5 - امتحان تعليم السياقة</p>
+</div>
+</div>
+<div class="category">رخصة السياقة B</div>
+</header>
+
+<div class="modal" id="nameModal" style="display:flex;">
+<div class="modal-content">
+<h2>بيانات المترشح (السلسلة 5)</h2>
+<p>المرجو إدخال الاسم الكامل للمترشح</p>
+<input type="text" id="candidateName" placeholder="اسم المترشح" autocomplete="off">
+<p id="nameError">المرجو إدخال اسم المترشح</p>
+<div class="modal-buttons">
+<button class="start-modal-btn" id="startConfirmBtn">التالي</button>
+</div>
+</div>
+</div>
+
+<div id="pinModal">
+  <div class="pin-container">
+    <div class="pin-info-section">
+      <div class="pin-title-box">الرقم السري الخاص: 1234</div>
+      <img src="im.hamza.png" alt="شعار التطبيق" class="app-profile-img">
+
+      <div class="user-details-table">
+        <div class="detail-row">
+          <div class="detail-label">الاسم الكامل</div>
+          <div class="detail-val" id="pinCandidateName">---</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">N° de la CIN</div>
+          <div class="detail-val">CH 202688</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Catégorie</div>
+          <div class="detail-val">B (سيارة)</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Langue</div>
+          <div class="detail-val">Arabe Dialectale</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pin-pad-section">
+      <div class="keypad-grid">
+        <button class="key-btn" onclick="pressPin('7')">7</button>
+        <button class="key-btn" onclick="pressPin('8')">8</button>
+        <button class="key-btn" onclick="pressPin('9')">9</button>
+        <button class="key-btn" onclick="pressPin('4')">4</button>
+        <button class="key-btn" onclick="pressPin('5')">5</button>
+        <button class="key-btn" onclick="pressPin('6')">6</button>
+        <button class="key-btn" onclick="pressPin('1')">1</button>
+        <button class="key-btn" onclick="pressPin('2')">2</button>
+        <button class="key-btn" onclick="pressPin('3')">3</button>
+        <button class="key-btn key-zero" onclick="pressPin('0')">0</button>
+      </div>
+
+      <input type="password" id="pinInput" class="pin-display-input" readonly placeholder="****">
+      <div class="pin-error-msg" id="pinError">الرمز السري خاطئ! أدخل 1234</div>
+    </div>
+  </div>
+</div>
+
+<div id="readyModal">
+  <div class="ready-card">
+    <div class="ready-icon-box">
+      <img src="im.hamza.png" alt="أيقونة">
+      <div>
+        <strong>Codehamza.ag</strong>
+        <div style="font-size:13px; color:#555;">السلسلة 5 - تعليم السياقة</div>
+      </div>
+    </div>
+    <div class="ready-msg-box">L'examen va commencer dans quelques secondes</div>
+    <div class="ready-msg-box">إستعد سيبدأ الامتحان بعد قليل</div>
+  </div>
+</div>
+
+<section id="exam">
+  <div class="exam-window">
+    <!-- الشريط العلوي داخل الامتحان: زر الرئيسية على اليسار | اللوغو في الوسط | رقم السلسلة على اليمين -->
+    <div style="background:#07182d; padding:5px 12px; display:flex; justify-content:space-between; align-items:center; border-radius:4px; margin-bottom:4px;">
+      
+      <!-- اليسار: زر الرئيسية الصغير -->
+      <button onclick="if(confirm('هل تريد فعلاً الخروج والعودة للرئيسية؟')) window.location.href='index.html';" style="background:#c0392b; color:white; border:0; padding:4px 10px; border-radius:4px; font-weight:bold; font-size:12px; cursor:pointer;">🏠 الرئيسية</button>
+
+      <!-- الوسط: اللوغو واسم التطبيق -->
+      <div style="display:flex; align-items:center; gap:8px;">
+        <img src="im.hamza.png" alt="Logo" style="width:28px; height:28px; object-fit:contain; background:white; border-radius:50%; padding:1px; border:1px solid #d8b45d;">
+        <span style="color:#e5bd68; font-weight:bold; font-size:13px;">Codehamza.ag</span>
+      </div>
+
+      <!-- اليمين: رقم السلسلة -->
+      <div style="color:#ffffff; font-weight:bold; font-size:13px; background:#173d65; padding:4px 12px; border-radius:4px; border:1px solid #d8b45d;">
+        السلسلة رقم 5
+      </div>
+
+    </div>
+
+    <div class="exam-layout">
+      <div class="question-area">
+        <img id="questionImage" src="" alt="صورة السؤال">
+      </div>
+
+      <aside class="side-panel">
+        <div class="panel-top-indicators">
+          <div class="indicator-line" data-ind="1">1</div>
+          <div class="indicator-line" data-ind="2">2</div>
+          <div class="indicator-line" data-ind="3">3</div>
+          <div class="indicator-line" data-ind="4">4</div>
+        </div>
+
+        <button class="btn-corriger" id="corrigerBtn">Corrigé<br><span style="font-size:12px;">تصحيح</span></button>
+        
+        <div class="answer-buttons">
+          <button class="answer" data-answer="1">1</button>
+          <button class="answer" data-answer="2">2</button>
+          <button class="answer" data-answer="3">3</button>
+          <button class="answer" data-answer="4">4</button>
+        </div>
+
+        <button class="action validate" id="validateBtn">Valider<br><span style="font-size:12px;">موافق</span></button>
+      </aside>
+    </div>
+
+    <div class="footer-bar-exam">
+      <div class="footer-block">
+        <span><span>الوقت المتبقي</span> Temps écoulé</span>
+        <div class="number-display" id="timer">30</div>
+        <span style="color:#2e7d32; font-size:22px;">⏱️</span>
+      </div>
+
+      <div class="footer-block">
+        <span><span>السؤال</span> Question</span>
+        <div class="number-display" id="questionNumber">1</div>
+      </div>
+
+      <div class="footer-block">
+        <span><span>الصوت</span> Volume</span>
+        <div class="volume-section">
+          <div class="volume-dot"></div>
+          <div class="volume-dot"></div>
+          <div class="volume-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-category-box">
+      <div>Nom Prenom: <strong id="candidateDisplay">مترشح</strong></div>
+      <div>Catégorie: <span>B</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+<div class="result-card">
+<h1>نتيجة السلسلة 5</h1>
+<div class="score" id="score">0 / 40</div>
+<h2 id="resultMessage"></h2>
+<p id="resultDetails"></p>
+<button class="correction-btn" id="showCorrectionBtn">تصحيح</button>
+<br>
+<button class="home-btn" id="homeBtn" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+</div>
+
+<div class="review-area" id="correctionArea" style="display:none">
+<h2 style="text-align:center">تصحيح السلسلة 5</h2>
+<p style="text-align:center">اضغط على رقم السؤال لمشاهدة التصحيح</p>
+<div class="question-numbers" id="questionNumbers"></div>
+<div id="correctionDetails">
+<h3 id="detailTitle"></h3>
+<div id="detailStatus"></div>
+<img id="detailImage" src="" alt="صورة السؤال">
+<p id="userAnswer"></p>
+<p id="correctAnswer"></p>
+</div>
+</div>
+</section>
+
+<script>
+const exam=document.getElementById("exam");
+const nameModal=document.getElementById("nameModal");
+const pinModal=document.getElementById("pinModal");
+const readyModal=document.getElementById("readyModal");
+const questionImage=document.getElementById("questionImage");
+const results=document.getElementById("results");
+
+const correctAnswers=[
+[1],[2],[3],[1],[2],[4],[1],[2],[3],[1],
+[2],[1],[4],[2],[1],[3],[2],[1],[4],[2],
+[1],[3],[2],[1],[4],[2],[1],[3],[2],[1],
+[1],[2],[3],[1],[2],[4],[1],[2],[3],[1]
+];
+
+let currentQuestion=1;
+let timeLeft=30;
+let timerInterval=null;
+let selectedAnswers=[];
+let userAnswers=[];
+let finished=false;
+let moving=false;
+let candidate="";
+let enteredPin="";
+
+setTimeout(()=>document.getElementById("candidateName").focus(),100);
+
+document.getElementById("startConfirmBtn").addEventListener("click",moveToPinStep);
+document.getElementById("candidateName").addEventListener("keydown",event=>{
+if(event.key==="Enter")moveToPinStep();
+});
+
+function moveToPinStep(){
+const input=document.getElementById("candidateName");
+candidate=input.value.trim();
+if(!candidate){
+document.getElementById("nameError").style.display="block";
+input.focus();
+return;
+}
+
+nameModal.style.display="none";
+document.getElementById("pinCandidateName").textContent=candidate;
+document.getElementById("candidateDisplay").textContent=candidate;
+enteredPin = "";
+document.getElementById("pinInput").value = "";
+document.getElementById("pinError").style.display = "none";
+pinModal.style.display = "flex";
+}
+
+function pressPin(digit){
+if(enteredPin.length < 4){
+  enteredPin += digit;
+  document.getElementById("pinInput").value = enteredPin;
+}
+
+if(enteredPin.length === 4){
+  if(enteredPin === "1234"){
+    pinModal.style.display = "none";
+    showReadyScreen();
+  } else {
+    document.getElementById("pinError").style.display = "block";
+    setTimeout(()=>{
+      enteredPin = "";
+      document.getElementById("pinInput").value = "";
+      document.getElementById("pinError").style.display = "none";
+    }, 1200);
+  }
+}
+}
+
+function showReadyScreen(){
+readyModal.style.display = "flex";
+setTimeout(()=>{
+  readyModal.style.display = "none";
+  beginExam();
+}, 5000);
+}
+
+function beginExam(){
+currentQuestion=1;
+userAnswers=[];
+selectedAnswers=[];
+finished=false;
+moving=false;
+
+document.getElementById("mainHeader").style.display="none";
+results.style.display="none";
+document.getElementById("correctionArea").style.display="none";
+exam.style.display="block";
+showQuestion();
+
+if(document.documentElement.requestFullscreen){
+document.documentElement.requestFullscreen().catch(()=>{});
+}
+}
+
+function showQuestion(){
+if(currentQuestion>40){
+finishExam();
+return;
+}
+
+moving=false;
+selectedAnswers=[];
+updateIndicators();
+timeLeft=30;
+
+document.getElementById("questionNumber").textContent=currentQuestion;
+document.getElementById("timer").textContent=timeLeft;
+
+questionImage.onerror=()=>{
+questionImage.alt="تعذر تحميل صورة السؤال "+currentQuestion;
+};
+questionImage.src=`Serie a5/p (${currentQuestion}).png`;
+
+document.querySelectorAll(".answer").forEach(button=>{
+button.classList.remove("selected");
+});
+startTimer();
+}
+
+function updateIndicators(){
+document.querySelectorAll(".indicator-line").forEach(ind=>{
+const num = Number(ind.dataset.ind);
+if(selectedAnswers.includes(num)){
+ind.classList.add("active-indicator");
+} else {
+ind.classList.remove("active-indicator");
+}
+});
+}
+
+document.querySelectorAll(".answer").forEach(button=>{
+button.addEventListener("click",()=>{
+if(finished||moving)return;
+const answer=Number(button.dataset.answer);
+if(selectedAnswers.includes(answer)){
+selectedAnswers=selectedAnswers.filter(a=>a!==answer);
+button.classList.remove("selected");
+}else{
+selectedAnswers.push(answer);
+button.classList.add("selected");
+}
+updateIndicators();
+});
+});
+
+document.getElementById("corrigerBtn").addEventListener("click",()=>{
+if(finished||moving)return;
+selectedAnswers=[];
+document.querySelectorAll(".answer").forEach(button=>{
+button.classList.remove("selected");
+});
+updateIndicators();
+});
+
+function startTimer(){
+clearInterval(timerInterval);
+let elapsedSeconds = 0;
+
+timerInterval=setInterval(()=>{
+if(finished||moving)return;
+
+elapsedSeconds++;
+if(elapsedSeconds <= 10){
+  return; 
+}
+
+timeLeft--;
+document.getElementById("timer").textContent=timeLeft;
+
+if(timeLeft<=0){
+  nextQuestion();
+}
+},1000);
+}
+
+document.getElementById("validateBtn").addEventListener("click",nextQuestion);
+
+function nextQuestion(){
+if(finished||moving)return;
+moving=true;
+clearInterval(timerInterval);
+userAnswers[currentQuestion-1]=[...selectedAnswers];
+currentQuestion++;
+showQuestion();
+}
+
+function isCorrect(user,correct){
+if(!user||user.length!==correct.length)return false;
+return correct.every(a=>user.includes(a))&&user.every(a=>correct.includes(a));
+}
+
+function finishExam(){
+if(finished)return;
+finished=true;
+clearInterval(timerInterval);
+
+let score=0;
+correctAnswers.forEach((correct,index)=>{
+if(isCorrect(userAnswers[index],correct))score++;
+});
+
+exam.style.display="none";
+results.style.display="block";
+document.getElementById("score").textContent=score+" / 40";
+document.getElementById("resultMessage").textContent=
+score>=32?"مبروك! نجحت في السلسلة 5":"لم تحقق نقطة النجاح، حاول مرة أخرى";
+document.getElementById("resultDetails").textContent=
+"الأجوبة الصحيحة: "+score+" | الأجوبة الخاطئة: "+(40-score);
+
+document.getElementById("correctionArea").style.display="none";
+
+if(document.fullscreenElement){
+document.exitFullscreen().catch(()=>{});
+}
+}
+
+document.getElementById("showCorrectionBtn").addEventListener("click",()=>{
+const area=document.getElementById("correctionArea");
+area.style.display="block";
+createQuestionNumbers();
+area.scrollIntoView({behavior:"smooth"});
+});
+
+function createQuestionNumbers(){
+const container=document.getElementById("questionNumbers");
+container.innerHTML="";
+
+correctAnswers.forEach((correct,index)=>{
+const user=userAnswers[index]||[];
+const ok=isCorrect(user,correct);
+const button=document.createElement("button");
+
+button.textContent=index+1;
+button.className="question-number "+(ok?"correct":"wrong");
+
+button.addEventListener("click",()=>{
+document.querySelectorAll(".question-number").forEach(b=>b.classList.remove("active"));
+button.classList.add("active");
+showQuestionCorrection(index);
+});
+
+container.appendChild(button);
+});
+}
+
+function showQuestionCorrection(index){
+const correct=correctAnswers[index];
+const user=userAnswers[index]||[];
+const ok=isCorrect(user,correct);
+
+document.getElementById("correctionDetails").style.display="block";
+document.getElementById("detailTitle").textContent="السؤال رقم "+(index+1);
+
+const status=document.getElementById("detailStatus");
+status.textContent=ok?"جواب صحيح ✓":"جواب خاطئ ✗";
+status.className=ok?"correct-text":"wrong-text";
+
+const img=document.getElementById("detailImage");
+img.src=`Serie a5/p (${index+1}).png`;
+img.alt="السؤال رقم "+(index+1);
+
+document.getElementById("userAnswer").textContent=
+"جوابك: "+(user.length?user.join(" - "):"لم يتم اختيار أي جواب");
+
+document.getElementById("correctAnswer").textContent=
+"الجواب الصحيح: "+correct.join(" - ");
+
+document.getElementById("correctionDetails").scrollIntoView({behavior:"smooth",block:"start"});
+}
+</script>
+</body>
+</html>

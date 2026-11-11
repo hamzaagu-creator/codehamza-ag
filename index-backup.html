@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codehamza.ag</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f5fa;
+    color: #142b45;
+}
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: linear-gradient(135deg,#07182d,#173d65);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: opacity .7s;
+}
+
+#intro img {
+    width: 210px;
+    height: 210px;
+    object-fit: contain;
+    background: white;
+    border: 4px solid #d8b45d;
+    border-radius: 50%;
+    padding: 8px;
+}
+
+#intro h1 {
+    color: #e5bd68;
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+#intro p { font-size: 19px; }
+
+header {
+    background: linear-gradient(110deg,#07182d,#173d65);
+    color: white;
+    padding: 22px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid #d8b45d;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    background: white;
+    border-radius: 50%;
+    padding: 3px;
+}
+
+.brand h1 {
+    margin: 0;
+    color: #e5bd68;
+    font-size: 25px;
+}
+
+.brand p {
+    margin: 6px 0 0;
+    font-size: 13px;
+}
+
+.category {
+    background: #d8b45d;
+    color: #10243e;
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+main {
+    max-width: 1250px;
+    margin: auto;
+    padding: 35px 22px;
+}
+
+.welcome {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.welcome h2 {
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    color: #68798c;
+    font-size: 16px;
+}
+
+.info {
+    background: white;
+    border-right: 5px solid #d8b45d;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px #142b4510;
+}
+
+.info strong { color: #173d65; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 17px;
+}
+
+.series {
+    background: white;
+    border: 1px solid #e1e7ef;
+    border-radius: 13px;
+    min-height: 115px;
+    cursor: pointer;
+    padding: 15px 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px #142b450c;
+    transition: .2s;
+    color: #142b45;
+}
+
+.series:hover {
+    transform: translateY(-5px);
+    border-color: #d8b45d;
+    box-shadow: 0 8px 20px #142b4520;
+}
+
+.number {
+    display: block;
+    font-size: 29px;
+    font-weight: bold;
+    color: #173d65;
+    margin-bottom: 8px;
+}
+
+.series small {
+    color: #738196;
+    font-size: 13px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #78869a;
+    font-size: 13px;
+}
+
+@media(max-width: 850px) {
+    .grid { grid-template-columns: repeat(3,1fr); }
+}
+
+@media(max-width: 500px) {
+    .grid { grid-template-columns: repeat(2,1fr); }
+    header { padding: 15px; }
+    .brand h1 { font-size: 19px; }
+    .brand img { width: 50px; height: 50px; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+    <img src="im.hamza.png" alt="شعار حمزة">
+    <h1>Codehamza.ag</h1>
+    <p>منصتكم للاستعداد لامتحان قانون السير</p>
+</div>
+
+<header>
+    <div class="brand">
+        <img src="im.hamza.png" alt="Logo">
+        <div>
+            <h1>Codehamza.ag</h1>
+            <p>منصة امتحان تعليم السياقة</p>
+        </div>
+    </div>
+    <div class="category">رخصة السياقة B</div>
+</header>
+
+<main>
+    <section class="welcome">
+        <h2>مرحباً بك في فضاء الامتحانات</h2>
+        <p>اختر السلسلة المناسبة وابدأ اختبار معلوماتك في قانون السير</p>
+    </section>
+
+    <div class="info">
+        <strong>فضاء التدريب:</strong>
+        <span> 40 سلسلة تدريبية، كل سلسلة تتكون من 40 سؤالاً.</span>
+    </div>
+
+    <section class="grid" id="seriesGrid"></section>
+</main>
+
+<footer>
+    Codehamza.ag © جميع الحقوق محفوظة
+</footer>
+
+<script>
+const grid = document.getElementById("seriesGrid");
+
+for (let i = 1; i <= 40; i++) {
+    const button = document.createElement("button");
+    button.className = "series";
+    button.innerHTML = `
+        <span class="number">${i}</span>
+        <small>السلسلة ${i}</small>
+    `;
+
+    button.addEventListener("click", () => {
+        alert("تم اختيار السلسلة رقم " + i + " — سنضيف أسئلتها في المرحلة المقبلة.");
+    });
+
+    grid.appendChild(button);
+}
+
+setTimeout(() => {
+    const intro = document.getElementById("intro");
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+        intro.style.display = "none";
+    }, 700);
+}, 5000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Codehamza.ag",
+  "short_name": "Codehamza",
+  "description": "منصة تعليم السياقة Codehamza.ag",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#123456",
+  "icons": [
+    {
+      "src": "./im.hamza.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
